@@ -23,7 +23,7 @@ namespace DataStructures.Map
 		 * 
 		 * @return An Iterable object for all Entries in the Map.
 		 */
-        IEnumerator<Entry<TKey, TValue>> EntrySet();
+        IEnumerator<IEntry> EntrySet();
 
         /**
 		 * Gets the Value associated with the given Key.
@@ -83,21 +83,21 @@ namespace DataStructures.Map
          * @param <K> Generic type used for the Map's keys.
          * @param <V> Generic type stored as the Map's values.
          */
-        interface Entry<K, V>
+        interface IEntry
         {
             /**
              * Retrieves the Entry's Key.
              * 
              * @return The Entry's Key.
              */
-            K GetKey();
+            TKey GetKey();
 
             /**
              * Retrieves the Entry's Value.
              * 
              * @return The Entry's Value;
              */
-            V GetValue();
+            TValue GetValue();
 
             /**
              * Sets the Entry's Key to the given Key.
@@ -106,7 +106,7 @@ namespace DataStructures.Map
              * 
              * @return The Entry's old Key.
              */
-            K SetKey(K key);
+            TKey SetKey(TKey key);
 
             /**
              * Sets the Entry's Value to given Value.
@@ -115,7 +115,7 @@ namespace DataStructures.Map
              * 
              * @return The Entry's old Value.
              */
-            V SetValue(V value);
+            TValue SetValue(TValue value);
         }
     }
 }
