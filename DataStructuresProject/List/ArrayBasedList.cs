@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStructures.List
 {
@@ -45,6 +42,8 @@ namespace DataStructures.List
 		 */
         public override void Add(int index, E value)
         {
+            //CheckIndex(index);
+
             // Check array capacity and expand if needed
             EnsureCapacity(size + 1);
             // Shift array to make room for new element
