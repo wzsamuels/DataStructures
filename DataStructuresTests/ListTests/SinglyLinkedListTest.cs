@@ -1,53 +1,51 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DataStructures.List;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace TestProject2
 {
-    [TestClass]
-    public class UnitTest1
-    {
-		ArrayBasedList<string> list;
-		ArrayBasedList<string> listRemove;
+	[TestClass]
+	public class SinglyLinkedListTest
+	{
+		SinglyLinkedList<string> list;
+		SinglyLinkedList<string> listRemove;
 
 		[TestInitialize]
 		public void SetUp()
-        {
-			list = new ArrayBasedList<string>();
-            listRemove = new ArrayBasedList<string>
-            {
+		{
+			list = new SinglyLinkedList<string>();
+			listRemove = new SinglyLinkedList<string>
+			{
 
                 //Build a list for Remove testing
                 { 0, "one" },
-                { 1, "two" },
-                { 2, "three" },
-                { 3, "four" }
-            };            
+				{ 1, "two" },
+				{ 2, "three" },
+				{ 3, "four" }
+			};
 		}
 
 		[TestMethod]
-        public void TestAddIndex()
-        {
-            
-            Assert.AreEqual(list.Size(), 0);
-            Assert.IsTrue(list.IsEmpty());
+		public void TestAddIndex()
+		{
 
-            list.Add(0, "one");
-            Assert.AreEqual(1, list.Size());
-            Assert.AreEqual("one", list.GetIndex(0));
-            Assert.IsFalse(list.IsEmpty());
+			Assert.AreEqual(list.Size(), 0);
+			Assert.IsTrue(list.IsEmpty());
 
-            try
-            {
-                list.Add(15, "fifteen");
-            }
-            catch(Exception e)
-            {
-                Assert.IsTrue(e.GetType() == typeof(ArgumentOutOfRangeException));
-            }
-        }
+			list.Add(0, "one");
+			Assert.AreEqual(1, list.Size());
+			Assert.AreEqual("one", list.GetIndex(0));
+			Assert.IsFalse(list.IsEmpty());
+
+			try
+			{
+				list.Add(15, "fifteen");
+			}
+			catch (Exception e)
+			{
+				Assert.IsTrue(e.GetType() == typeof(ArgumentOutOfRangeException));
+			}
+		}
 
 		/**
 		 * Test for AddLast() method.
@@ -157,12 +155,12 @@ namespace TestProject2
 			//Assert.IsTrue(list.GetEnumerator().MoveNext());
 			//list.GetEnumerator().MoveNext();
 			//Assert.AreEqual("one", list.GetEnumerator().Current);
-			
+
 			list.AddLast("two");
 			list.AddLast("three");
 			list.AddLast("four");
 
-			
+
 		}
 
 		/**
@@ -264,5 +262,5 @@ namespace TestProject2
 
 			Assert.AreEqual(listRemove.Size(), 4);
 		}
-	}	
+	}
 }
