@@ -10,7 +10,7 @@ namespace DataStructures.PositionalList
 	 *
 	 * @param <E> The generic data type contained in the positional list.
 	*/
-	public interface IPositionalList<E> : IEnumerable<E>	
+	public interface IPositionalList<E>	
     {
 		/**
 			* Inserts into the list a new element with the given value after the 
@@ -94,7 +94,9 @@ namespace DataStructures.PositionalList
 			* 
 			* @return An iterable object starting at the beginning of this linked list.
 			*/
-		IEnumerator<IPosition<E>> Positions();
+		IEnumerator<IPosition<E>> PositionIterator();
+
+		public IEnumerator<E> ElementIterator();
 
 		/**
 			* Removes the given position from this list.

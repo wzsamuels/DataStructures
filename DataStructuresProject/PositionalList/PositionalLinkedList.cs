@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace DataStructures.PositionalList
 	 *
 	 * @param <E> The generic data type stored by the list.
 	 */
-	class PositionalLinkedList<E> where E : class, IPositionalList<E>, IEnumerable<E>
+	public class PositionalLinkedList<E> : IPositionalList<E> where E : class
 	{
 		/** The node at the beginning of the list */
 		private PositionalNode<E> front;
@@ -36,15 +37,53 @@ namespace DataStructures.PositionalList
 
 		/**
 		 * Creates a new iterator at the beginning of this PositionalLinkedList
-		 * to iterate its the elements.
+		 * to iterate its positions.
 		 * 
 		 * @return An iterator object for this PositionalLinkedList.
 		 */
-		public IEnumerator<E> iterator()
+		public IEnumerator<IPosition<E>> PositionIterator()
 		{
 			// we start at front.GetNext() because front is a dummy/sentinel node
-			return new ElementIterator(front.GetNext());
+			//return new ElementIterator(front.GetNext());
+			IPosition<E> current = front.GetNext();
+			PositionalNode<E> node;
+
+			while(current != null && current != tail)
+			{
+				node = Validate(current);
+				current = node.GetNext();
+
+				yield return node;
+			}
+
+            yield break;
+			
 		}
+
+		public IEnumerator<E> ElementIterator()
+		{
+			// we start at front.GetNext() because front is a dummy/sentinel node
+			//return new ElementIterator(front.GetNext());
+			IEnumerator<IPosition<E>> it = PositionIterator();
+
+			while(it.MoveNext())
+            {
+				yield return it.Current.GetElement();
+            }
+
+			yield break;
+
+		}
+
+		/**
+		 * Creates a new positional iterator for this PositionalLinkedList.
+		 * 
+		 * @return An iterable object starting at the beginning of this linked list.
+		 
+		public IEnumerable<IPosition<E>> positions()
+		{
+			return new PositionIterable();
+		}*/
 
 		/**
 		 * Inserts into the list a new element with the given value after the 
@@ -169,16 +208,6 @@ namespace DataStructures.PositionalList
 		}
 
 		/**
-		 * Creates a new positional iterator for this PositionalLinkedList.
-		 * 
-		 * @return An iterable object starting at the beginning of this linked list.
-		 */
-		public IEnumerator<IPosition<E>> positions()
-		{
-			return new PositionIterable();
-		}
-
-		/**
 		 * Removes the given position from this list.
 		 * 
 		 * @param p The position to remove from the list.
@@ -205,12 +234,12 @@ namespace DataStructures.PositionalList
 		 * @param value The value to set the element to.
 		 * @return The element previously at the given position.
 		 */
-		public E Set(IPosition<E> p, E value)
+		public E SetPosition(IPosition<E> p, E value)
 		{
 			PositionalNode<E> node = Validate(p);
 
 			E temp = node.GetElement();
-			node.SetElement(value);
+			node.SetPosition(value);
 
 			return temp;
 		}
@@ -258,12 +287,12 @@ namespace DataStructures.PositionalList
 			return newNode;
 		}
 
-		/**
+        /**
 		 * PositionalNode represents the individual nodes that make up a PositionalLinkedList.
 		 *	 
 		 * @param <E> The generic data type stored in each node.
 		 */
-		private class PositionalNode<E> : IPosition<E> {
+        private class PositionalNode<E> : IPosition<E> {
 
 			private E element;
 			private PositionalNode<E> next;
@@ -299,7 +328,7 @@ namespace DataStructures.PositionalList
 			 */
 			public PositionalNode(E value, PositionalNode<E> next, PositionalNode<E> prev)
 			{
-				SetElement(value);
+				SetPosition(value);
 				SetNext(next);
 				SetPrevious(prev);
 			}
@@ -359,7 +388,7 @@ namespace DataStructures.PositionalList
 			 * 
 			 * @param element This node's new element.
 			 */
-			public void SetElement(E element)
+			public void SetPosition(E element)
 			{
 				this.element = element;
 			}
