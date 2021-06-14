@@ -15,7 +15,7 @@ namespace DataStructures.Map
 	 * @param <K> Generic type used for the Map's keys.
 	 * @param <V> Generic type stored as the Map's values.
 	 */
-    public interface IMap<TKey, TValue> : IEnumerable<TKey>
+    public interface IMap<TKey, TValue> :  IEnumerable<TKey>
     {
         /**
 		 * Generates an object that can be iterated over to retrieve the Entries in
@@ -23,7 +23,15 @@ namespace DataStructures.Map
 		 * 
 		 * @return An Iterable object for all Entries in the Map.
 		 */
-        IEnumerator<IEntry> EntrySet();
+        IEnumerable<IEntry<TKey, TValue>> EntryIterator();
+
+        /**
+        * Generates an object that can be iterated over to retrieve the Values in
+        * the Map.
+        * 
+        * @return An Iterable object for all Values in the Map.
+        */
+        IEnumerable<TValue> ValueIterator();
 
         /**
 		 * Gets the Value associated with the given Key.
@@ -66,56 +74,48 @@ namespace DataStructures.Map
 		 * 
 		 * @return The size of the Map.
 		 */
-        int Size();
+        int Size();              
+    }
 
+    /**
+    * Entry objects hold the Key/Value pairs that make up the Map. This interface
+    * declares the methods needed for such functionality.   
+    *
+    * @param <K> Generic type used for the Map's keys.
+    * @param <V> Generic type stored as the Map's values.
+    */
+    public interface IEntry<TKey, TValue>
+    {
         /**
-		 * Generates an object that can be iterated over to retrieve the Values in
-		 * the Map.
-		 * 
-		 * @return An Iterable object for all Values in the Map.
-		 */
-        IEnumerable<TValue> Values();
-
-        /**
-         * Entry objects hold the Key/Value pairs that make up the Map. This interface
-         * declares the methods needed for such functionality.   
-         *
-         * @param <K> Generic type used for the Map's keys.
-         * @param <V> Generic type stored as the Map's values.
+         * Retrieves the Entry's Key.
+         * 
+         * @return The Entry's Key.
          */
-        interface IEntry
-        {
-            /**
-             * Retrieves the Entry's Key.
-             * 
-             * @return The Entry's Key.
-             */
-            TKey GetKey();
+        TKey GetKey();
 
-            /**
-             * Retrieves the Entry's Value.
-             * 
-             * @return The Entry's Value;
-             */
-            TValue GetValue();
+        /**
+         * Retrieves the Entry's Value.
+         * 
+         * @return The Entry's Value;
+         */
+        TValue GetValue();
 
-            /**
-             * Sets the Entry's Key to the given Key.
-             * 
-             * @param key The new Key value.
-             * 
-             * @return The Entry's old Key.
-             */
-            TKey SetKey(TKey key);
+        /**
+         * Sets the Entry's Key to the given Key.
+         * 
+         * @param key The new Key value.
+         * 
+         * @return The Entry's old Key.
+         */
+        TKey SetKey(TKey key);
 
-            /**
-             * Sets the Entry's Value to given Value.
-             * 
-             * @param value The new Value.
-             * 
-             * @return The Entry's old Value.
-             */
-            TValue SetValue(TValue value);
-        }
+        /**
+         * Sets the Entry's Value to given Value.
+         * 
+         * @param value The new Value.
+         * 
+         * @return The Entry's old Value.
+         */
+        TValue SetValue(TValue value);
     }
 }
