@@ -121,7 +121,15 @@ namespace DataStructures.List
 
         public IEnumerator<E> GetEnumerator()
         {
-            yield return (E)data.GetEnumerator();
+            for(int i = 0; i < size; i++)
+            {
+                yield return data[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         /**
@@ -149,11 +157,6 @@ namespace DataStructures.List
                 }
                 Array.Resize(ref data, newCapacity);
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return data.GetEnumerator();
         }
     }
 }
