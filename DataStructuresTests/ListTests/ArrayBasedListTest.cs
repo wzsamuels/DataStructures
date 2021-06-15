@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DataStructures.List;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TestProject2
@@ -53,7 +52,7 @@ namespace TestProject2
 		 * Test for AddLast() method.
 		*/
 		[TestMethod]
-		public void testAddLast()
+		public void TestAddLast()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -68,7 +67,7 @@ namespace TestProject2
 		 * Test for Last() method.
 		 */
 		[TestMethod]
-		public void testLast()
+		public void TestLast()
 		{
 			list.Add(0, "one");
 			Assert.AreEqual("one", list.Last());
@@ -83,7 +82,7 @@ namespace TestProject2
 		 * Test for AddFirst() method.
 		 */
 		[TestMethod]
-		public void testAddFirst()
+		public void TestAddFirst()
 		{
 			list.AddFirst("one");
 			Assert.AreEqual("one", list.First());
@@ -129,47 +128,63 @@ namespace TestProject2
 		}
 
 		/**
-		 * Test for iterator() method.
+		 * Test for GetEnumerator() method.
 		 */
 		[TestMethod]
-		public void testIterator()
+		public void TestGetEnumerator()
 		{
 			// Start with an empty list
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
 
+			int count = 0;
+			foreach (string str in list)
+			{
+				count++;
+			}
+			Assert.AreEqual(0, count);
+
 			// Try different operations to make sure they work
 			// as expected for an empty list (at this point)
 
-			// Now Add an element
+			// Now Add an elements
 			list.AddLast("one");
-
-			// Use accessor methods to check that the list is correct
-			Assert.AreEqual(1, list.Size());
-			Assert.IsFalse(list.IsEmpty());
-			Assert.AreEqual("one", list.GetIndex(0));
-
-			// Create an iterator for the list that has 1 element
-			// Create an iterator for the empty list
-
-			// Try different iterator operations to make sure they work
-			// as expected for a list that contains 1 element (at this point)
-			//Assert.IsTrue(list.GetEnumerator().MoveNext());
-			//list.GetEnumerator().MoveNext();
-			//Assert.AreEqual("one", list.GetEnumerator().Current);
-			
 			list.AddLast("two");
 			list.AddLast("three");
 			list.AddLast("four");
 
-			
+			// Use accessor methods to check that the list is correct
+			Assert.AreEqual(4, list.Size());
+			Assert.IsFalse(list.IsEmpty());
+			Assert.AreEqual("one", list.GetIndex(0));
+			Assert.AreEqual("two", list.GetIndex(1));
+			Assert.AreEqual("three", list.GetIndex(2));
+			Assert.AreEqual("four", list.GetIndex(3));
+
+			IEnumerator<string> it = list.GetEnumerator();
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("one", it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("two", it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("three", it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("four", it.Current);
+
+			count = 0;
+			foreach(string str in list)
+            {
+				count++;
+            }
+			Assert.AreEqual(4, count);
+
 		}
 
 		/**
 		 * Test for RemoveIndex() method.
 		 */
 		[TestMethod]
-		public void testRemoveIndex()
+		public void TestRemoveIndex()
 		{
 			// Test removing from empty list
 			Assert.IsTrue(list.IsEmpty());
@@ -195,7 +210,7 @@ namespace TestProject2
 		 * Test for RemoveFirst() method.
 		 */
 		[TestMethod]
-		public void testRemoveFirst()
+		public void TestRemoveFirst()
 		{
 			// Test removing from empty list
 			Assert.IsTrue(list.IsEmpty());
@@ -250,7 +265,7 @@ namespace TestProject2
 		 * Test for set() method.
 		 */
 		[TestMethod]
-		public void testSet()
+		public void TestSet()
 		{
 			Assert.AreEqual("one", listRemove.SetIndex(0, "five"));
 			Assert.AreEqual("two", listRemove.SetIndex(1, "six"));
