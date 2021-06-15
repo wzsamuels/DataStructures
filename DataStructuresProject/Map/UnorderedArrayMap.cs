@@ -26,7 +26,7 @@ namespace DataStructures.Map
 		/**
 		 * Default Constructor for UnorderedArrayMap. Creates a new, empty Map.
 		 */
-		public UnorderedArrayMap()
+		public UnorderedArrayMap() 
 		{
 			this.list = new ArrayBasedList<IEntry<TKey, TValue>>();
 		}
@@ -42,9 +42,9 @@ namespace DataStructures.Map
 		{
 			int index = 0;
 
-			foreach(TKey entry in list)
+			foreach(var entry in list)
 			{
-				if (entry.Equals(key))
+				if (entry.GetKey().Equals(key))
 					return index;
 				index++;
 			}
@@ -177,16 +177,20 @@ namespace DataStructures.Map
 		 */
 		public override string ToString()
 		{
-			StringBuilder sb = new(TypeDescriptor.GetClassName(this) + "[");
+			StringBuilder sb = new(this.GetType().Name + "[");
 			IEnumerator<IEntry<TKey, TValue>> it = list.GetEnumerator();
 
-			while(it.MoveNext())
+			if(it.MoveNext())
             {
 				sb.Append(it.Current.GetKey());
+			}				
+			while(it.MoveNext())
+            {
 				sb.Append(", ");
+				sb.Append(it.Current.GetKey());
 			}
 			
-			sb.Append("]");
+			sb.Append(']');
 			return sb.ToString();
 		}
 	}

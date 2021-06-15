@@ -31,7 +31,7 @@ namespace DataStructures.Map
         * 
         * @return An Iterable object for all Values in the Map.
         */
-        IEnumerable<TValue> ValueIterator();
+        IEnumerator<TValue> ValueIterator();
 
         /**
 		 * Gets the Value associated with the given Key.

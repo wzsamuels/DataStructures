@@ -16,14 +16,14 @@ namespace DataStructures.Map
     * @param <K> Generic type used for the Map's keys.
     * @param <V> Generic type stored as the Map's values.
     */
-	public abstract class AbstractMap<TKey, TValue> : IMap<TKey, TValue>
+	public abstract class AbstractMap<TKey, TValue> : IMap<TKey, TValue>, IEnumerable<TKey>
 	{
 		public abstract IEnumerable<IEntry<TKey, TValue>> EntryIterator();
 
-        public abstract TValue GetValue(TKey key);
-        public abstract TValue Put(TKey key, TValue value);
-        public abstract TValue Remove(TKey key);
-        public abstract int Size();
+		public abstract TValue GetValue(TKey key);
+		public abstract TValue Put(TKey key, TValue value);
+		public abstract TValue Remove(TKey key);
+		public abstract int Size();
 
 		/**
 		* Determines if the Map is empty (has a size of zero).
@@ -35,10 +35,10 @@ namespace DataStructures.Map
 			return Size() == 0;
 		}
 
-        IEnumerable<TValue> IMap<TKey, TValue>.ValueIterator()
-        {
-			return (IEnumerable<TValue>)new ValueIterator(EntryIterator().GetEnumerator());
-        }
+		IEnumerator<TValue> IMap<TKey, TValue>.ValueIterator()
+		{
+			return new ValueIterator(EntryIterator().GetEnumerator());
+		}
 
 		/**
 		* Creates a new Iterator for iterating over the Map's Keys.
@@ -46,15 +46,22 @@ namespace DataStructures.Map
 		* @return An iterator of the Map's Keys.
 		*/
 		public IEnumerator<TKey> GetEnumerator()
-        {
+		{
 			return new KeyIterator(EntryIterator().GetEnumerator());
 
 		}
 
-        IEnumerator IEnumerable.GetEnumerator()
+		private IEnumerator GetEnumerator1()
+		{
+			return this.GetEnumerator();
+		}
+
+
+		IEnumerator IEnumerable.GetEnumerator()
         {
-			return (IEnumerator)GetEnumerator();
-        }
+			return GetEnumerator1();
+		}
+
 
         /**
 		* MapEntry objects hold the Key/Value pairs that make up the Map.
