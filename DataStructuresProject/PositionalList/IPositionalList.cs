@@ -10,7 +10,7 @@ namespace DataStructures.PositionalList
 	 *
 	 * @param <E> The generic data type contained in the positional list.
 	*/
-	public interface IPositionalList<E>	
+	public interface IPositionalList<E>	: IEnumerable<E>
     {
 		/**
 			* Inserts into the list a new element with the given value after the 

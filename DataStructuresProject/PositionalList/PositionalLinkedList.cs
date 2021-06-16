@@ -64,15 +64,24 @@ namespace DataStructures.PositionalList
 		{
 			// we start at front.GetNext() because front is a dummy/sentinel node
 			//return new ElementIterator(front.GetNext());
+			return GetEnumerator();
+		}
+
+		public IEnumerator<E> GetEnumerator()
+		{
 			IEnumerator<IPosition<E>> it = PositionIterator();
 
-			while(it.MoveNext())
-            {
+			while (it.MoveNext())
+			{
 				yield return it.Current.GetElement();
-            }
+			}
 
 			yield break;
+		}
 
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 
 		/**
@@ -285,7 +294,7 @@ namespace DataStructures.PositionalList
 			size++;
 
 			return newNode;
-		}
+		}      
 
         /**
 		 * PositionalNode represents the individual nodes that make up a PositionalLinkedList.
