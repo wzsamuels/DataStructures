@@ -131,9 +131,9 @@ namespace TestProject2.Map
 			Assert.IsNull(map.Put(4, "string4"));
 			Assert.IsNull(map.Put(1, "string1"));
 
-			IEnumerator<IEntry<int, string>> it = map.EntryIterator().GetEnumerator();
+			IEnumerator<IMap<int, string>.IEntry> it = map.EntryIterator().GetEnumerator();
 			Assert.IsTrue(it.MoveNext());
-			IEntry<int, string> entry = it.Current;
+			IMap<int, string>.IEntry entry = it.Current;
 			Assert.AreEqual(1, entry.GetKey());
 			Assert.AreEqual("string1", (String)(entry.GetValue()));
 

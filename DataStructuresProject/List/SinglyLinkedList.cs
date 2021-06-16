@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 namespace DataStructures.List
 {
-    public class SinglyLinkedList<T> : AbstractList<T>, IEnumerable<T> where T : class
+    public class SinglyLinkedList<T> : AbstractList<T>, IEnumerable<T> 
+        where T : class
     {
         /** The node at the front of the linked list */
         private readonly LinkedListNode front;

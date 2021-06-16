@@ -116,7 +116,7 @@ namespace TestProject2
 		 * Test for First() method.
 		 */
 		[TestMethod]
-		public void testFirst()
+		public void TestFirst()
 		{
 			list.Add(0, "one");
 			Assert.AreEqual("one", list.First());
@@ -238,7 +238,7 @@ namespace TestProject2
 		 * Test for RemoveLast method().
 		 */
 		[TestMethod]
-		public void testRemoveLast()
+		public void TestRemoveLast()
 		{
 			// Test removing from empty list
 			Assert.IsTrue(list.IsEmpty());

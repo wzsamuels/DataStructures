@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStructures.PositionalList
 {
@@ -18,9 +15,9 @@ namespace DataStructures.PositionalList
 	public class PositionalLinkedList<E> : IPositionalList<E> where E : class
 	{
 		/** The node at the beginning of the list */
-		private PositionalNode<E> front;
+		private readonly PositionalNode front;
 		/** The node at the end of the list */
-		private PositionalNode<E> tail;
+		private readonly PositionalNode tail;
 		/** The current number of elements in the list */
 		private int size;
 
@@ -29,8 +26,8 @@ namespace DataStructures.PositionalList
 		 */
 		public PositionalLinkedList()
 		{
-			front = new PositionalNode<E>(null);
-			tail = new PositionalNode<E>(null, null, front);
+			front = new PositionalNode(null);
+			tail = new PositionalNode(null, null, front);
 			front.SetNext(tail);
 			size = 0;
 		}
@@ -46,7 +43,7 @@ namespace DataStructures.PositionalList
 			// we start at front.GetNext() because front is a dummy/sentinel node
 			//return new ElementIterator(front.GetNext());
 			IPosition<E> current = front.GetNext();
-			PositionalNode<E> node;
+			PositionalNode node;
 
 			while(current != null && current != tail)
 			{
@@ -105,7 +102,7 @@ namespace DataStructures.PositionalList
 		 */
 		public IPosition<E> AddAfter(IPosition<E> p, E value)
 		{
-			PositionalNode<E> node = Validate(p);
+			PositionalNode node = Validate(p);
 			return AddBetween(value, node.GetNext(), node);
 		}
 
@@ -120,7 +117,7 @@ namespace DataStructures.PositionalList
 		 */
 		public IPosition<E> AddBefore(IPosition<E> p, E value)
 		{
-			PositionalNode<E> node = Validate(p);
+			PositionalNode node = Validate(p);
 			return AddBetween(value, node, node.GetPrevious());
 		}
 
@@ -156,7 +153,7 @@ namespace DataStructures.PositionalList
 		 */
 		public IPosition<E> After(IPosition<E> p)
 		{
-			PositionalNode<E> node = Validate(p);
+			PositionalNode node = Validate(p);
 			if (node.GetNext() == tail)
 				return null;
 
@@ -171,7 +168,7 @@ namespace DataStructures.PositionalList
 		 */
 		public IPosition<E> Before(IPosition<E> p)
 		{
-			PositionalNode<E> node = Validate(p);
+			PositionalNode node = Validate(p);
 			if (node.GetPrevious() == front)
 				return null;
 
@@ -225,10 +222,10 @@ namespace DataStructures.PositionalList
 		 */
 		public E Remove(IPosition<E> p)
 		{
-			PositionalNode<E> node = Validate(p);
+			PositionalNode node = Validate(p);
 
-			PositionalNode<E> prev = node.GetPrevious();
-			PositionalNode<E> next = node.GetNext();
+			PositionalNode prev = node.GetPrevious();
+			PositionalNode next = node.GetNext();
 			prev.SetNext(next);
 			next.SetPrevious(prev);
 			size--;
@@ -245,7 +242,7 @@ namespace DataStructures.PositionalList
 		 */
 		public E SetPosition(IPosition<E> p, E value)
 		{
-			PositionalNode<E> node = Validate(p);
+			PositionalNode node = Validate(p);
 
 			E temp = node.GetElement();
 			node.SetPosition(value);
@@ -269,10 +266,10 @@ namespace DataStructures.PositionalList
 		 * @param p The Position to validate.
 		 * @return The Position cast to a PositionalNode.
 		 */
-		private PositionalNode<E> Validate(IPosition<E> p)
+		private static PositionalNode Validate(IPosition<E> p)
 		{
-			if (p.GetType() == typeof(PositionalNode<E>)) {
-				return (PositionalNode<E>)p;
+			if (p.GetType() == typeof(PositionalNode)) {
+				return (PositionalNode)p;
 			}
 			throw new ArgumentException("Position is not a valid positional list node.");
 		}
@@ -285,9 +282,9 @@ namespace DataStructures.PositionalList
 		 * @param prev The position before the new position.
 		 * @return The new positional node.
 		 */
-		private IPosition<E> AddBetween(E value, PositionalNode<E> next, PositionalNode<E> prev)
+		private IPosition<E> AddBetween(E value, PositionalNode next, PositionalNode prev)
 		{
-			PositionalNode<E> newNode = new PositionalNode<E>(value, next, prev);
+			PositionalNode newNode = new(value, next, prev);
 			// Link the new node into the list
 			next.SetPrevious(newNode);
 			prev.SetNext(newNode);
@@ -301,11 +298,11 @@ namespace DataStructures.PositionalList
 		 *	 
 		 * @param <E> The generic data type stored in each node.
 		 */
-        private class PositionalNode<E> : IPosition<E> {
+        private class PositionalNode : IPosition<E> {
 
 			private E element;
-			private PositionalNode<E> next;
-			private PositionalNode<E> previous;
+			private PositionalNode next;
+			private PositionalNode previous;
 
 			/**
 			 * Constructor with one parameter. Value is set, next and previous are null.
@@ -323,7 +320,7 @@ namespace DataStructures.PositionalList
 			 * @param value The value to store in the new node.
 			 * @param next The link to the following node in the list.
 			 */
-			public PositionalNode(E value, PositionalNode<E> next) : this(value, next, null)
+			public PositionalNode(E value, PositionalNode next) : this(value, next, null)
 			{				
 			}
 
@@ -335,7 +332,7 @@ namespace DataStructures.PositionalList
 			 * @param next The link to the following node in the list.
 			 * @param prev The link to the previous node in the list.
 			 */
-			public PositionalNode(E value, PositionalNode<E> next, PositionalNode<E> prev)
+			public PositionalNode(E value, PositionalNode next, PositionalNode prev)
 			{
 				SetPosition(value);
 				SetNext(next);
@@ -347,7 +344,7 @@ namespace DataStructures.PositionalList
 			 * 
 			 * @param prev The new link to the node before this PositionalNode.
 			 */
-			public void SetPrevious(PositionalNode<E> prev)
+			public void SetPrevious(PositionalNode prev)
 			{
 				previous = prev;
 			}
@@ -357,7 +354,7 @@ namespace DataStructures.PositionalList
 			 * 
 			 * @return The previous node before this PositionalNode.
 			 */
-			public PositionalNode<E> GetPrevious()
+			public PositionalNode GetPrevious()
 			{
 				return previous;
 			}
@@ -367,7 +364,7 @@ namespace DataStructures.PositionalList
 			 * 
 			 * @param next The new link to the node after this PositionalNode.
 			 */
-			public void SetNext(PositionalNode<E> next)
+			public void SetNext(PositionalNode next)
 			{
 				this.next = next;
 			}
@@ -377,7 +374,7 @@ namespace DataStructures.PositionalList
 			 * 
 			 * @return The next node after this PositionalNode.
 			 */
-			public PositionalNode<E> GetNext()
+			public PositionalNode GetNext()
 			{
 				return next;
 			}

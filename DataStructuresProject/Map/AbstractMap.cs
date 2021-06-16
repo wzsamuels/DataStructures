@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStructures.Map
 {
@@ -18,13 +14,12 @@ namespace DataStructures.Map
     */
 	public abstract class AbstractMap<TKey, TValue> : IMap<TKey, TValue>, IEnumerable<TKey>
 	{
-		public abstract IEnumerable<IEntry<TKey, TValue>> EntryIterator();
-
+		public abstract IEnumerable<IMap<TKey, TValue>.IEntry> EntryIterator();
 		public abstract TValue GetValue(TKey key);
 		public abstract TValue Put(TKey key, TValue value);
 		public abstract TValue Remove(TKey key);
 		public abstract int Size();
-
+	
 		/**
 		* Determines if the Map is empty (has a size of zero).
 		* 
@@ -62,14 +57,13 @@ namespace DataStructures.Map
 			return GetEnumerator1();
 		}
 
-
         /**
 		* MapEntry objects hold the Key/Value pairs that make up the Map.
 		*
 		* @param <K> Generic type used for the Map's keys.
 		* @param <V> Generic type stored as the Map's values.
 		*/
-        protected class MapEntry<TKey, TValue> : IEntry<TKey, TValue>
+        protected class MapEntry : IMap<TKey, TValue>.IEntry
 		{
 			private TKey key;
 			private TValue value;
@@ -139,14 +133,14 @@ namespace DataStructures.Map
 		 */
 		protected class ValueIterator : IEnumerator<TValue> {
 
-			private IEnumerator<IEntry<TKey, TValue>> it;
+			private readonly IEnumerator<IMap<TKey, TValue>.IEntry> it;
 
 			/**
 			 * Creates a new ValueIterator from the given Enumerator object.
 			 * 
 			 * @param iterator The Entry Enumerator to use as the new ValueIterator.
 			 */
-			public ValueIterator(IEnumerator<IEntry<TKey, TValue>> iterator)
+			public ValueIterator(IEnumerator<IMap<TKey, TValue>.IEntry> iterator)
 			{
 				it = iterator;
 			}
@@ -182,7 +176,7 @@ namespace DataStructures.Map
 		 */
 		protected class KeyIterator : IEnumerator<TKey> {
 
-			private IEnumerator<IEntry<TKey, TValue>> it;
+			private readonly IEnumerator<IMap<TKey, TValue>.IEntry> it;
 			public TKey Current => it.Current.GetKey();
 			object IEnumerator.Current => Current;
 
@@ -191,7 +185,7 @@ namespace DataStructures.Map
 			 * given Entry type.
 			 * @param iterator The Entry Iterator used to construct the KeyIterator.
 			 */
-            public KeyIterator(IEnumerator<IEntry<TKey, TValue>> iterator)
+            public KeyIterator(IEnumerator<IMap<TKey, TValue>.IEntry> iterator)
 			{
 				it = iterator;
 			}		
@@ -214,9 +208,9 @@ namespace DataStructures.Map
 
 		public class ValueIterable : IEnumerable<TValue>
 		{
-			private IEnumerator<IEntry<TKey, TValue>> it;
+			private readonly IEnumerator<IMap<TKey, TValue>.IEntry> it;
 
-			public ValueIterable(IEnumerator<IEntry<TKey, TValue>> iterator)
+			public ValueIterable(IEnumerator<IMap<TKey, TValue>.IEntry> iterator)
 			{
 				it = iterator;
 			}

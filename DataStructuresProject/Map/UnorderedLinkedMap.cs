@@ -16,14 +16,14 @@ namespace DataStructures.Map
     */
     public class UnorderedLinkedMap<TKey, TValue> : AbstractMap<TKey, TValue>
     {
-		private IPositionalList<IEntry<TKey, TValue>> list;
+		private readonly IPositionalList<IMap<TKey, TValue>.IEntry> list;
 
 		/**
 		 * UnorderedLinkedMap constructor with no parameters. Creates a new, empty Map. 
 		 */
 		public UnorderedLinkedMap()
 		{
-			this.list = new PositionalLinkedList<IEntry<TKey, TValue>>();
+			this.list = new PositionalLinkedList<IMap<TKey, TValue>.IEntry>();
 		}
 
 		/**
@@ -33,9 +33,9 @@ namespace DataStructures.Map
 		 * 
 		 * @return The Position of the Key if it exists, null otherwise.
 		 */
-		private IPosition<IEntry<TKey, TValue>> LookUp(TKey key)
+		private IPosition<IMap<TKey, TValue>.IEntry> LookUp(TKey key)
 		{
-			IEnumerator<IPosition<IEntry<TKey, TValue>>> iterator = list.PositionIterator();
+			IEnumerator<IPosition<IMap<TKey, TValue>.IEntry>> iterator = list.PositionIterator();
 
 			while(iterator.MoveNext())
 			{
@@ -56,7 +56,7 @@ namespace DataStructures.Map
 		 */
 		public override TValue GetValue(TKey key)
 		{
-			IPosition<IEntry<TKey, TValue>> p = LookUp(key);
+			IPosition<IMap<TKey, TValue>.IEntry> p = LookUp(key);
 
 			if (p != null && p.GetElement() != null)
 			{
@@ -72,7 +72,7 @@ namespace DataStructures.Map
 		 * 
 		 * @param position The Position to move to the front of the Map.
 		 */
-		private void MoveToFront(IPosition<IEntry<TKey, TValue>> position)
+		private void MoveToFront(IPosition<IMap<TKey, TValue>.IEntry> position)
 		{
 			list.Remove(position);
 			list.AddFirst(position.GetElement());
@@ -89,16 +89,16 @@ namespace DataStructures.Map
 		 */
 		public override TValue Put(TKey key, TValue value)
 		{
-			IPosition<IEntry<TKey, TValue>> p = LookUp(key);
+			IPosition<IMap<TKey, TValue>.IEntry> p = LookUp(key);
 
 			if (p == null)
 			{
-				list.AddFirst(new MapEntry<TKey, TValue>(key, value));
+				list.AddFirst(new MapEntry(key, value));
 				return default;
 			}
 			else
 			{
-				IEntry<TKey, TValue> temp = list.SetPosition(p, new MapEntry<TKey, TValue>(key, value));
+				IMap<TKey, TValue>.IEntry temp = list.SetPosition(p, new MapEntry(key, value));
 				MoveToFront(p);
 				return temp.GetValue();
 			}
@@ -113,7 +113,7 @@ namespace DataStructures.Map
 		 */
 		public override TValue Remove(TKey key)
 		{
-			IPosition<IEntry<TKey, TValue>> p = LookUp(key);
+			IPosition<IMap<TKey, TValue>.IEntry> p = LookUp(key);
 
 			if (p == null)
 				return default;
@@ -137,10 +137,10 @@ namespace DataStructures.Map
 		 * 
 		 * @return An Iterable object for all Entries in the Map.
 		 */
-		public override IEnumerable<IEntry<TKey, TValue>> EntryIterator()
+		public override IEnumerable<IMap<TKey, TValue>.IEntry> EntryIterator()
 		{
-			IPositionalList<IEntry<TKey, TValue>> set = new PositionalLinkedList<IEntry<TKey, TValue>>();
-			foreach (IEntry<TKey, TValue> m in list)
+			IPositionalList<IMap<TKey, TValue>.IEntry> set = new PositionalLinkedList<IMap<TKey, TValue>.IEntry>();
+			foreach (IMap<TKey, TValue>.IEntry m in list)
 			{
 				set.AddLast(m);
 			}
@@ -156,7 +156,7 @@ namespace DataStructures.Map
 		public override string ToString()
 		{
 			StringBuilder sb = new(this.GetType().Name + "[");
-			IEnumerator<IEntry<TKey, TValue>> it = list.GetEnumerator();
+			IEnumerator<IMap<TKey, TValue>.IEntry> it = list.GetEnumerator();
 
 			if (it.MoveNext())
 			{

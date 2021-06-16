@@ -21,14 +21,14 @@ namespace DataStructures.Map
     {
 		// Use the adapter pattern to delegate to our existing
 		// array-based list implementation
-		private ArrayBasedList<IEntry<TKey, TValue>> list;
+		private readonly ArrayBasedList<IMap<TKey, TValue>.IEntry> list;
 
 		/**
 		 * Default Constructor for UnorderedArrayMap. Creates a new, empty Map.
 		 */
 		public UnorderedArrayMap() 
 		{
-			this.list = new ArrayBasedList<IEntry<TKey, TValue>>();
+			this.list = new ArrayBasedList<IMap<TKey, TValue>.IEntry>();
 		}
 
 		/**
@@ -87,12 +87,12 @@ namespace DataStructures.Map
 
 			if (index == -1)
 			{
-				list.AddFirst(new MapEntry<TKey, TValue>(key, value));
+				list.AddFirst(new MapEntry(key, value));
 				return null;
 			}
 			else
 			{
-				TValue temp = list.SetIndex(index, new MapEntry<TKey, TValue>(key, value)).GetValue();
+				TValue temp = list.SetIndex(index, new MapEntry(key, value)).GetValue();
 				Transpose(index);
 				return temp;
 			}
@@ -108,9 +108,8 @@ namespace DataStructures.Map
 		public override TValue Remove(TKey key)
 		{
 			int index = LookUp(key);
-			IEntry<TKey, TValue> temp = null;
-
-			try
+            IMap<TKey, TValue>.IEntry temp;
+            try
 			{
 				temp = list.GetIndex(index);
 				list.Remove(index);
@@ -146,8 +145,8 @@ namespace DataStructures.Map
 		{
 			if (index != 0)
 			{
-				IEntry<TKey, TValue> indexEntry = list.GetIndex(index);
-				IEntry<TKey, TValue> prevEntry = list.GetIndex(index - 1);
+				IMap<TKey, TValue>.IEntry indexEntry = list.GetIndex(index);
+				IMap<TKey, TValue>.IEntry prevEntry = list.GetIndex(index - 1);
 				list.SetIndex(index - 1, indexEntry);
 				list.SetIndex(index, prevEntry);
 
@@ -164,7 +163,7 @@ namespace DataStructures.Map
 		 * 
 		 * @return An Iterable object for all Entries in the Map.
 		 */
-		public override IEnumerable<IEntry<TKey, TValue>> EntryIterator()
+		public override IEnumerable<IMap<TKey, TValue>.IEntry> EntryIterator()
 		{
 			return list;
 		}
@@ -178,7 +177,7 @@ namespace DataStructures.Map
 		public override string ToString()
 		{
 			StringBuilder sb = new(this.GetType().Name + "[");
-			IEnumerator<IEntry<TKey, TValue>> it = list.GetEnumerator();
+			IEnumerator<IMap<TKey, TValue>.IEntry> it = list.GetEnumerator();
 
 			if(it.MoveNext())
             {
