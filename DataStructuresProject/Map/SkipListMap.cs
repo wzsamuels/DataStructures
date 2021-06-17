@@ -65,7 +65,7 @@ namespace DataStructures.Map
 		{
 			if (entry == null)
 				return false;
-			return entry.GetKey() == null;
+			return entry.GetKey() == null || entry.GetKey().Equals(default(TKey));
 		}
 
 		/**
@@ -81,7 +81,7 @@ namespace DataStructures.Map
 			SkipListEntry current = start;
 			while (current.GetBelow() != null)
 			{
-				current = current.GetBelow();
+				current = current.GetBelow();				
 				while (!IsSentinel(current.GetNext()) && key.CompareTo(current.GetNext().GetKey()) >= 0)
 				{
 					current = current.GetNext();
@@ -302,7 +302,7 @@ namespace DataStructures.Map
 				cursor = cursor.GetBelow();
 			}
 			cursor = cursor.GetNext();
-			while (cursor != null && cursor.GetKey() != null)
+			while (cursor != null && cursor.GetKey() != null && !IsSentinel(cursor))
 			{
 				sb.Append(cursor.GetKey());
 				if (!IsSentinel(cursor.GetNext()))
