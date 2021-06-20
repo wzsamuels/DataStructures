@@ -63,7 +63,7 @@ namespace TestProject2
 		 * Test for AddLast() method.
 		*/
 		[TestMethod]
-		public void testAddLast()
+		public void TestAddLast()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -78,7 +78,7 @@ namespace TestProject2
 		 * Test for Last() method.
 		 */
 		[TestMethod]
-		public void testLast()
+		public void TestLast()
 		{
 			list.Add(0, "one");
 			Assert.AreEqual("one", list.Last());
@@ -93,7 +93,7 @@ namespace TestProject2
 		 * Test for AddFirst() method.
 		 */
 		[TestMethod]
-		public void testAddFirst()
+		public void TestAddFirst()
 		{
 			list.AddFirst("one");
 			Assert.AreEqual("one", list.First());
@@ -139,10 +139,10 @@ namespace TestProject2
 		}
 
 		/**
-		 * Test for iterator() method.
+		 * Test for GetEnumerator() method.
 		 */
 		[TestMethod]
-		public void testIterator()
+		public void TestGetEnumerator()
 		{
 			// Start with an empty list
 			Assert.AreEqual(0, list.Size());

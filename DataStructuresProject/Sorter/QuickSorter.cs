@@ -271,7 +271,7 @@ namespace DataStructures.Sorter
 			 */
 			public int SelectPivot(int low, int high)
 			{
-				Random random = new Random();
+				Random random = new();
 				return random.Next(high - low) + low;
 			}		
 		}
