@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataStructures.Data
+﻿namespace DataStructures.Data
 {
-	/**
+    /**
  * Comparator to compare students based on id number
  * @author Dr. King
  * @author Zach Samuels
  */
-	class StudentIDComparator
+    class StudentIDComparator
     {
 		/**
 	 * Compares students based on id number in ascending order
