@@ -38,7 +38,7 @@ namespace DataStructures.PositionalList
 		 * 
 		 * @return An iterator object for this PositionalLinkedList.
 		 */
-		public IEnumerator<IPosition<E>> PositionIterator()
+		public IEnumerable<IPosition<E>> PositionIterator()
 		{
 			// we start at front.GetNext() because front is a dummy/sentinel node
 			//return new ElementIterator(front.GetNext());
@@ -51,10 +51,7 @@ namespace DataStructures.PositionalList
 				current = node.GetNext();
 
 				yield return node;
-			}
-
-            yield break;
-			
+			}			
 		}
 
 		public IEnumerator<E> ElementIterator()
@@ -66,7 +63,7 @@ namespace DataStructures.PositionalList
 
 		public IEnumerator<E> GetEnumerator()
 		{
-			IEnumerator<IPosition<E>> it = PositionIterator();
+			IEnumerator<IPosition<E>> it = PositionIterator().GetEnumerator();
 
 			while (it.MoveNext())
 			{

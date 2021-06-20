@@ -94,7 +94,7 @@ namespace DataStructures.PositionalList
 			* 
 			* @return An iterable object starting at the beginning of this linked list.
 			*/
-		IEnumerator<IPosition<E>> PositionIterator();
+		IEnumerable<IPosition<E>> PositionIterator();
 
 		public IEnumerator<E> ElementIterator();
 
