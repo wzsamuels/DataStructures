@@ -106,11 +106,11 @@ namespace TestProject2.Map
 		[TestMethod]
 		public void TestStudentMap()
 		{
-			Student s1 = new Student("J", "K", 1, 0, 0, "jk");
-			Student s2 = new Student("J", "S", 2, 0, 0, "js");
-			Student s3 = new Student("S", "H", 3, 0, 0, "sh");
-			Student s4 = new Student("J", "J", 4, 0, 0, "jj");
-			Student s5 = new Student("L", "B", 5, 0, 0, "lb");
+			Student s1 = new("J", "K", 1, 0, 0, "jk");
+			Student s2 = new("J", "S", 2, 0, 0, "js");
+			Student s3 = new("S", "H", 3, 0, 0, "sh");
+			Student s4 = new("J", "J", 4, 0, 0, "jj");
+			Student s5 = new("L", "B", 5, 0, 0, "lb");
 
 			studentMap.Put(s1, 100);
 			Assert.AreEqual(1, studentMap.Size());

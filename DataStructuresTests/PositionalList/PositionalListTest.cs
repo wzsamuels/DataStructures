@@ -15,7 +15,7 @@ namespace TestProject2.PositionalList
 		 * Initializes a new list for testing.
 		 */
 		[TestInitialize]
-		public void setUp()
+		public void SetUp()
 		{
 			list = new PositionalLinkedList<string>();
 		}
@@ -24,7 +24,7 @@ namespace TestProject2.PositionalList
 		 * Test for First() method.
 		 */
 		[TestMethod]
-		public void testFirst()
+		public void TestFirst()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -48,7 +48,7 @@ namespace TestProject2.PositionalList
 		 * Test for Last() method.
 		 */
 		[TestMethod]
-		public void testLast()
+		public void TestLast()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -73,7 +73,7 @@ namespace TestProject2.PositionalList
 		 * Test for AddFirst() method.
 		 */
 		[TestMethod]
-		public void testAddFirst()
+		public void TestAddFirst()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -100,7 +100,7 @@ namespace TestProject2.PositionalList
 		 * Test for AddLast() method.
 		 */
 		[TestMethod]
-		public void testAddLast()
+		public void TestAddLast()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -125,7 +125,7 @@ namespace TestProject2.PositionalList
 		 * Test for Before() method.
 		 */
 		[TestMethod]
-		public void testBefore()
+		public void TestBefore()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -148,7 +148,7 @@ namespace TestProject2.PositionalList
 		 * Test for After() method.
 		 */
 		[TestMethod]
-		public void testAfter()
+		public void TestAfter()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -171,7 +171,7 @@ namespace TestProject2.PositionalList
 		 * Test for AddBefore() method.
 		 */
 		[TestMethod]
-		public void testAddBefore()
+		public void TestAddBefore()
 		{
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
@@ -207,7 +207,7 @@ namespace TestProject2.PositionalList
 		 * Test for AddAfter() method.
 		 */
 		[TestMethod]
-		public void testAddAfter()
+		public void TestAddAfter()
 		{
 			IPosition<string> one = list.AddLast("one");
 
@@ -228,7 +228,7 @@ namespace TestProject2.PositionalList
 		 * Test for SetPosition() method.
 		 */
 		[TestMethod]
-		public void testSetPosition()
+		public void TestSetPosition()
 		{
 			IPosition<string> one = list.AddLast("one");
 			IPosition<string> two = list.AddAfter(one, "two");
@@ -250,7 +250,7 @@ namespace TestProject2.PositionalList
 		 * Test for Remove() method.
 		 */
 		[TestMethod]
-		public void testRemove()
+		public void TestRemove()
 		{
 			IPosition<string> one = list.AddLast("one");
 			IPosition<string> two = list.AddAfter(one, "two");
@@ -272,14 +272,14 @@ namespace TestProject2.PositionalList
 		 * Test for iterator() method.
 		 */
 		[TestMethod]
-		public void testIterator()
+		public void TestIterator()
 		{
 			// Start with an empty list
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
 
 			// Create an iterator for the empty list
-			IEnumerator<IPosition<string>> it = list.PositionIterator();
+			IEnumerator<IPosition<string>> it = list.PositionIterator().GetEnumerator();
 			Assert.IsFalse(it.MoveNext());
 
 			// Trying to get the next element from an empty list should throw a NoSuchElementException
@@ -307,7 +307,7 @@ namespace TestProject2.PositionalList
 			Assert.AreEqual("four", list.Last().GetElement());
 
 			// Create an iterator for the list that has 1 element
-			it = list.PositionIterator();
+			it = list.PositionIterator().GetEnumerator();
 
 			// Try different iterator operations to make sure they work
 			// as expected for a list that contains 4 elements
@@ -332,8 +332,8 @@ namespace TestProject2.PositionalList
 
 		/**
 		 * Test for position iterators.
-		 
-		public void testPositions()
+		 */
+		public void PositionIterator()
 		{
 			Assert.AreEqual(0, list.Size());
 			IPosition<string> first = list.AddFirst("one");
@@ -341,21 +341,15 @@ namespace TestProject2.PositionalList
 			IPosition<string> third = list.AddLast("three");
 			Assert.AreEqual(3, list.Size());
 
-			Iterator<IPosition<string>> it = list.positions().iterator();
-			Assert.IsTrue(it.hasNext());
-			Assert.AreEqual(first, it.next());
-			Assert.AreEqual(second, it.next());
-			Assert.AreEqual(third, it.next());
+			IEnumerator<IPosition<string>> it = list.PositionIterator().GetEnumerator();
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual(first, it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual(second, it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual(third, it.Current);
 
-			// Test removing using iterator
-			it = list.positions().iterator();
-			while (it.hasNext())
-			{
-				it.next();
-				it.Remove();
-			}
-			Assert.IsTrue(list.IsEmpty());
-		}
-		*/
+			Assert.IsFalse(it.MoveNext());
+		}		
 	}
 }
