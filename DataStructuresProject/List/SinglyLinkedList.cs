@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DataStructures.List
 {
-    public class SinglyLinkedList<T> : AbstractList<T>, IEnumerable<T> 
+    public class SinglyLinkedList<T> : AbstractList<T>, IEnumerable<T>
         where T : class
     {
         /** The node at the front of the linked list */
@@ -162,7 +162,14 @@ namespace DataStructures.List
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new ElementIterator(this, front.GetNext());
+            //return new ElementIterator(this, front.GetNext());
+            LinkedListNode current = front.GetNext();
+            while (current != null)
+            {
+                T element = current.GetElement();
+                current = current.GetNext();
+                yield return element;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -244,77 +251,6 @@ namespace DataStructures.List
             public void SetElement(T data)
             {
                 this.data = data;
-            }
-        }
-
-        /**
-		* ElementIterator provides an iterator to iterate over the elements
-		* of a singly linked list.
-		*/
-        private class ElementIterator : IEnumerator<T>
-        {
-            // Keep track of the next node that will be processed
-            private LinkedListNode current;
-            private int position = -1;
-            private readonly SinglyLinkedList<T> parent;
-
-            /**
-             * Constructor with one parameter.
-             * 
-             * @param start The position to where iteration begins.
-             */
-            public ElementIterator(SinglyLinkedList<T> parent, LinkedListNode start)
-            {
-                this.parent = parent;
-                current = start;
-            }
-
-            public T Current
-            {
-                get
-                {
-                    try
-                    {
-                        return current.GetElement();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                }
-            }
-
-            public void Reset()
-            {
-                position = -1;
-                current = parent.front;
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return Current;
-                }
-            }
-
-            public void Dispose()
-            {
-                throw new NotImplementedException();
-            }
-
-            /**
-             * Advances the iterator and returns the next element in the list.
-             * 
-             * @return The next element in the list.
-             * @throws NoSuchElementException if the no next element exists.
-             */
-            public bool MoveNext()
-            {
-                position++;
-                current = current.GetNext();
-
-                return position < parent.Size();
             }
         }
     }
