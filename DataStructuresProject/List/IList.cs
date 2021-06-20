@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-/**
+﻿/**
      * List provides an interface for iterable list ADTs.
  *
  * @author Zach Samuels

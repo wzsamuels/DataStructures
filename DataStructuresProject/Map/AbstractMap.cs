@@ -147,7 +147,7 @@ namespace DataStructures.Map
 
             public TValue Current => it.Current.GetValue();
 
-			object System.Collections.IEnumerator.Current => Current;
+			object IEnumerator.Current => Current;
 
 			public void Dispose()
             {

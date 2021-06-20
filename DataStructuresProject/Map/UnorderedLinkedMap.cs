@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using DataStructures.PositionalList;
 
@@ -35,7 +34,7 @@ namespace DataStructures.Map
 		 */
 		private IPosition<IMap<TKey, TValue>.IEntry> LookUp(TKey key)
 		{
-			IEnumerator<IPosition<IMap<TKey, TValue>.IEntry>> iterator = list.PositionIterator();
+			IEnumerator<IPosition<IMap<TKey, TValue>.IEntry>> iterator = list.PositionIterator().GetEnumerator();
 
 			while(iterator.MoveNext())
 			{
