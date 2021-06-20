@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 namespace DataStructures.List
 {
-    public class SinglyLinkedList<T> : AbstractList<T>, IEnumerable<T>
-        where T : class
+    public class SinglyLinkedList<T> : AbstractList<T>, IEnumerable<T>       
     {
         /** The node at the front of the linked list */
         private readonly LinkedListNode front;
@@ -18,10 +17,10 @@ namespace DataStructures.List
 		 * Constructor with no parameters. Creates empty list with dummy front and null tail.
 		 */
         public SinglyLinkedList()
-        {
-            front = new LinkedListNode(null);
+        {            
+            front = new LinkedListNode(default);
             tail = null;
-            size = 0;
+            size = 0;             
         }
 
         /**

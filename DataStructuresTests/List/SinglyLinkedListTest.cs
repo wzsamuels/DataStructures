@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DataStructures.List;
 using System;
+using System.Collections.Generic;
 
 namespace TestProject2
 {
@@ -8,11 +9,13 @@ namespace TestProject2
 	public class SinglyLinkedListTest
 	{
 		SinglyLinkedList<string> list;
+		SinglyLinkedList<int?> intList;
 		SinglyLinkedList<string> listRemove;
 
 		[TestInitialize]
 		public void SetUp()
 		{
+			intList = new SinglyLinkedList<int?>();
 			list = new SinglyLinkedList<string>();
 			listRemove = new SinglyLinkedList<string>
 			{
@@ -28,7 +31,7 @@ namespace TestProject2
 		[TestMethod]
 		public void TestAddIndex()
 		{
-
+			// Test string list
 			Assert.AreEqual(list.Size(), 0);
 			Assert.IsTrue(list.IsEmpty());
 
@@ -45,6 +48,15 @@ namespace TestProject2
 			{
 				Assert.IsTrue(e.GetType() == typeof(ArgumentOutOfRangeException));
 			}
+
+			// Test int? list
+			Assert.AreEqual(0, intList.Size());
+			Assert.IsTrue(intList.IsEmpty());
+
+			intList.Add(0, 0);
+			Assert.AreEqual(1, intList.Size());
+			Assert.AreEqual(0, intList.GetIndex(0));
+			Assert.IsFalse(intList.IsEmpty());
 		}
 
 		/**
@@ -115,7 +127,7 @@ namespace TestProject2
 		 * Test for First() method.
 		 */
 		[TestMethod]
-		public void testFirst()
+		public void TestFirst()
 		{
 			list.Add(0, "one");
 			Assert.AreEqual("one", list.First());
@@ -136,6 +148,10 @@ namespace TestProject2
 			Assert.AreEqual(0, list.Size());
 			Assert.IsTrue(list.IsEmpty());
 
+			// Create an iterator for the empty list
+			IEnumerator<string> it = list.GetEnumerator();
+			Assert.IsFalse(it.MoveNext());
+
 			// Try different operations to make sure they work
 			// as expected for an empty list (at this point)
 
@@ -147,27 +163,35 @@ namespace TestProject2
 			Assert.IsFalse(list.IsEmpty());
 			Assert.AreEqual("one", list.GetIndex(0));
 
-			// Create an iterator for the list that has 1 element
-			// Create an iterator for the empty list
 
-			// Try different iterator operations to make sure they work
-			// as expected for a list that contains 1 element (at this point)
-			//Assert.IsTrue(list.GetEnumerator().MoveNext());
-			//list.GetEnumerator().MoveNext();
-			//Assert.AreEqual("one", list.GetEnumerator().Current);
+			// Create an iterator
+			it = list.GetEnumerator();			
+
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("one", it.Current);
 
 			list.AddLast("two");
 			list.AddLast("three");
 			list.AddLast("four");
 
+			it = list.GetEnumerator();
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("one", it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("two", it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("three", it.Current);
+			Assert.IsTrue(it.MoveNext());
+			Assert.AreEqual("four", it.Current);
 
+			Assert.IsFalse(it.MoveNext());
 		}
 
 		/**
 		 * Test for RemoveIndex() method.
 		 */
 		[TestMethod]
-		public void testRemoveIndex()
+		public void TestRemoveIndex()
 		{
 			// Test removing from empty list
 			Assert.IsTrue(list.IsEmpty());
@@ -193,7 +217,7 @@ namespace TestProject2
 		 * Test for RemoveFirst() method.
 		 */
 		[TestMethod]
-		public void testRemoveFirst()
+		public void TestRemoveFirst()
 		{
 			// Test removing from empty list
 			Assert.IsTrue(list.IsEmpty());
@@ -221,7 +245,7 @@ namespace TestProject2
 		 * Test for RemoveLast method().
 		 */
 		[TestMethod]
-		public void testRemoveLast()
+		public void TestRemoveLast()
 		{
 			// Test removing from empty list
 			Assert.IsTrue(list.IsEmpty());
@@ -248,7 +272,7 @@ namespace TestProject2
 		 * Test for set() method.
 		 */
 		[TestMethod]
-		public void testSet()
+		public void TestSet()
 		{
 			Assert.AreEqual("one", listRemove.SetIndex(0, "five"));
 			Assert.AreEqual("two", listRemove.SetIndex(1, "six"));
